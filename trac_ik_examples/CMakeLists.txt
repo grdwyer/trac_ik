@@ -26,9 +26,9 @@ target_include_directories(ik_tests PUBLIC
 )
 
 # Needed since NLopt is not an ament package
-target_link_libraries(ik_tests
-    ${NLOPT_LIBRARIES}
-)
+#target_link_libraries(ik_tests
+#    ${NLOPT_LIBRARIES}
+#)
 
 ament_target_dependencies(ik_tests
     ament_cmake

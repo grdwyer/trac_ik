@@ -17,6 +17,7 @@ find_package(moveit_core REQUIRED)
 find_package(moveit_ros_planning REQUIRED)
 find_package(moveit_msgs REQUIRED)
 find_package(trac_ik_lib REQUIRED)
+find_package(NLopt REQUIRED)
 
 # Finds Boost Components
 #include(ConfigExtras.cmake)
@@ -30,7 +31,6 @@ pluginlib_export_plugin_description_file(moveit_core trac_ik_plugin_description.
 set(TRAC_IK_LIBRARY_NAME trac_ik_kinematics_plugin)
 
 add_library(${TRAC_IK_LIBRARY_NAME} src/trac_ik_kinematics_plugin.cpp)
-#target_link_libraries(${TRAC_IK_LIBRARY_NAME} ${catkin_LIBRARIES} ${pkg_nlopt_LIBRARIES})
 
 ament_target_dependencies(${TRAC_IK_LIBRARY_NAME}
         moveit_core
