@@ -29,9 +29,9 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 ********************************************************************************/
 
 
-#include <ros/ros.h>
+#include <rclcpp/rclcpp.hpp>
 #include <urdf/model.h>
-#include <tf_conversions/tf_kdl.h>
+#include <tf2_kdl/tf2_kdl.h>
 #include <algorithm>
 #include <kdl/tree.hpp>
 #include <kdl_parser/kdl_parser.hpp>
@@ -41,6 +41,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 
 namespace trac_ik_kinematics_plugin
 {
+static rclcpp::Logger LOGGER = rclcpp::get_logger("moveit_trac_ik_kinematics_plugin.trac_ik_kinematics_plugin");
 
 bool TRAC_IKKinematicsPlugin::initialize(const std::string &robot_description,
     const std::string& group_name,

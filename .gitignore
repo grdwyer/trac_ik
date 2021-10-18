@@ -1,1 +1,6 @@
 trac_ik_python/src/trac_ik_python/trac_ik.pyc
+trac_ik_kinematics_plugin/cmake-build-debug/
+trac_ik_lib/cmake-build-debug/
+
+.idea/
+*/.idea/
