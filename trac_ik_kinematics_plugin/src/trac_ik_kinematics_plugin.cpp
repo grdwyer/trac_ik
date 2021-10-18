@@ -88,15 +88,15 @@ bool TRAC_IKKinematicsPlugin::initialize(const rclcpp::Node::SharedPtr& node, co
 
   std::vector<double> l_bounds, u_bounds;
 
-  joint_min.resize(num_joints_);
-  joint_max.resize(num_joints_);
+  joint_min_.resize(num_joints_);
+  joint_max_.resize(num_joints_);
 
   uint joint_num = 0;
   for (unsigned int i = 0; i < chain_segs.size(); ++i)
   {
 
     link_names_.push_back(chain_segs[i].getName());
-    joint = robot_model.getJoint(chain_segs[i].getJoint().getName());
+    joint = robot_model->getJoint(chain_segs[i].getJoint().getName());
     if (joint->type != urdf::Joint::UNKNOWN && joint->type != urdf::Joint::FIXED)
     {
       joint_num++;
@@ -124,22 +124,22 @@ bool TRAC_IKKinematicsPlugin::initialize(const rclcpp::Node::SharedPtr& node, co
       }
       if (hasLimits)
       {
-        joint_min(joint_num - 1) = lower;
-        joint_max(joint_num - 1) = upper;
+        joint_min_(joint_num - 1) = lower;
+        joint_max_(joint_num - 1) = upper;
       }
       else
       {
-        joint_min(joint_num - 1) = std::numeric_limits<float>::lowest();
-        joint_max(joint_num - 1) = std::numeric_limits<float>::max();
+        joint_min_(joint_num - 1) = std::numeric_limits<float>::lowest();
+        joint_max_(joint_num - 1) = std::numeric_limits<float>::max();
       }
-      RCLCPP_INFO_STREAM(LOGGER, "IK Using joint " << chain_segs[i].getName() << " " << joint_min(joint_num - 1) << " " << joint_max(joint_num - 1));
+      RCLCPP_INFO_STREAM(LOGGER, "IK Using joint " << chain_segs[i].getName() << " " << joint_min_(joint_num - 1) << " " << joint_max_(joint_num - 1));
     }
   }
 
   RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + "/position_only_ik").c_str());
-  lookupParam(group_name + "/position_only_ik", position_ik_, false);
+  lookupParam(node_,group_name + "/position_only_ik", position_ik_, false);
   RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + "/solve_type").c_str());
-  lookupParam(group_name + "/solve_type", solve_type, std::string("Speed"));
+  lookupParam(node_,group_name + "/solve_type", solve_type, std::string("Speed"));
   RCLCPP_INFO(LOGGER, "Using solve type %s", solve_type.c_str());
 
   active_ = true;
@@ -180,7 +180,7 @@ bool TRAC_IKKinematicsPlugin::getPositionFK(const std::vector<std::string> &link
 
   KDL::Frame p_out;
   geometry_msgs::msg::PoseStamped pose;
-  tf::Stamped<tf::Pose> tf_pose;
+//  tf::Stamped<tf::Pose> tf_pose;
 
   KDL::JntArray jnt_pos_in(num_joints_);
   for (unsigned int i = 0; i < num_joints_; i++)
@@ -325,7 +325,7 @@ bool TRAC_IKKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose &i
 
   if (ik_seed_state.size() != num_joints_)
   {
-    ROS_ERROR_STREAM_NAMED("trac_ik", "Seed state must have size " << num_joints_ << " instead of size " << ik_seed_state.size());
+    RCLCPP_ERROR_STREAM(LOGGER, "Seed state must have size " << num_joints_ << " instead of size " << ik_seed_state.size());
     error_code.val = error_code.NO_IK_SOLUTION;
     return false;
   }
@@ -366,7 +366,7 @@ bool TRAC_IKKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose &i
     solvetype = TRAC_IK::Speed;
   }
 
-  TRAC_IK::TRAC_IK ik_solver(chain_, joint_min, joint_max, timeout, epsilon, solvetype);
+  TRAC_IK::TRAC_IK ik_solver(chain_, joint_min_, joint_max_, timeout, epsilon, solvetype);
 
   int rc = ik_solver.CartToJnt(in, frame, out, bounds);
 
@@ -389,7 +389,7 @@ bool TRAC_IKKinematicsPlugin::searchPositionIK(const geometry_msgs::msg::Pose &i
       }
       else
       {
-        ROS_DEBUG_STREAM_NAMED("trac_ik", "Solution has error code " << error_code);
+        RCLCPP_DEBUG_STREAM(LOGGER, "Solution has error code " << error_code);
         return false;
       }
     }
