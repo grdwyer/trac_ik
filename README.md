@@ -1,5 +1,5 @@
 # trac_ik
-
+Requires nlopt_
 ROS 2 port of `trac_ik`, an alternative Inverse Kinematics solver to the popular inverse Jacobian methods in KDL.
 
 This repo contains 5 ROS 2 pacakges:
