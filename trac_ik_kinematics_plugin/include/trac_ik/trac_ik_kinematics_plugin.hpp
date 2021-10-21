@@ -31,8 +31,28 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef TRAC_IK_KINEMATICS_PLUGIN_
 #define TRAC_IK_KINEMATICS_PLUGIN_
 
-#include <moveit/kinematics_base/kinematics_base.h>
+// ROS
+#include <rclcpp/rclcpp.hpp>
+#include <random_numbers/random_numbers.h>
+
+// ROS msgs
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <moveit_msgs/srv/get_position_fk.hpp>
+#include <moveit_msgs/srv/get_position_ik.hpp>
+#include <moveit_msgs/msg/kinematic_solver_info.hpp>
+#include <moveit_msgs/msg/move_it_error_codes.hpp>
+
+// KDL
 #include <kdl/chain.hpp>
+#include <tf2_kdl/tf2_kdl.h>
+
+// trac-ik
+#include <trac_ik/trac_ik.hpp>
+
+// MoveIt
+#include <moveit/kinematics_base/kinematics_base.h>
+#include <moveit/robot_model/robot_model.h>
+#include <moveit/robot_state/robot_state.h>
 
 namespace trac_ik_kinematics_plugin
 {
