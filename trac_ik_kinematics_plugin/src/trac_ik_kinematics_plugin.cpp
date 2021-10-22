@@ -400,9 +400,6 @@ namespace trac_ik_kinematics_plugin
         error_code.val = moveit_msgs::msg::MoveItErrorCodes::NO_IK_SOLUTION;
         return false;
     }
-
-
-
 } // end namespace
 
 //register TRAC_IKKinematicsPlugin as a KinematicsBase implementation

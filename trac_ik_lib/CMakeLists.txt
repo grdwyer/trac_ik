@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 project(trac_ik_lib)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Werror)
+    add_compile_options(-Wall -Wextra -Wpedantic -Wshadow -Werror -fPIC)
 endif()
 
 find_package(ament_cmake REQUIRED)
