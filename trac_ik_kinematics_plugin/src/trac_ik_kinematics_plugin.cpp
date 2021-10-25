@@ -136,11 +136,13 @@ namespace trac_ik_kinematics_plugin
             }
         }
 
-        RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + "/position_only_ik").c_str());
-        lookupParam(node_,group_name + "/position_only_ik", position_ik_, false);
-        RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + "/solve_type").c_str());
-        lookupParam(node_,group_name + "/solve_type", solve_type, std::string("Speed"));
+        RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + ".position_only_ik").c_str());
+        lookupParam(node_,"position_only_ik", position_ik_, false);
+        RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + ".solve_type").c_str());
+        lookupParam(node_,"solve_type", solve_type, std::string("Speed"));
         RCLCPP_INFO(LOGGER, "Using solve type %s", solve_type.c_str());
+        lookupParam(node_,"epsilon", epsilon_, 1e-5);
+        RCLCPP_INFO(LOGGER, "Using epsilon value of %g", epsilon_);
 
         active_ = true;
         return true;
@@ -180,7 +182,6 @@ namespace trac_ik_kinematics_plugin
 
         KDL::Frame p_out;
         geometry_msgs::msg::PoseStamped pose;
-//  tf::Stamped<tf::Pose> tf_pose;
 
         KDL::JntArray jnt_pos_in(num_joints_);
         for (unsigned int i = 0; i < num_joints_; i++)
@@ -347,8 +348,6 @@ namespace trac_ik_kinematics_plugin
             bounds.rot.z(std::numeric_limits<float>::max());
         }
 
-        double epsilon = 1e-5;  //Same as MoveIt's KDL plugin
-
         TRAC_IK::SolveType solvetype;
 
         if (solve_type == "Manipulation1")
@@ -366,7 +365,7 @@ namespace trac_ik_kinematics_plugin
             solvetype = TRAC_IK::Speed;
         }
 
-        TRAC_IK::TRAC_IK ik_solver(chain_, joint_min_, joint_max_, timeout, epsilon, solvetype);
+        TRAC_IK::TRAC_IK ik_solver(chain_, joint_min_, joint_max_, timeout, epsilon_, solvetype);
 
         int rc = ik_solver.CartToJnt(in, frame, out, bounds);
 

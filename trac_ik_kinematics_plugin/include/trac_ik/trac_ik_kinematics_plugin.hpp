@@ -67,9 +67,10 @@ namespace trac_ik_kinematics_plugin
 
         KDL::Chain chain_;
         bool position_ik_;
+        double epsilon_;
 
-          KDL::JntArray joint_min_, joint_max_;
-//        Eigen::VectorXd joint_min_, joint_max_;
+        KDL::JntArray joint_min_, joint_max_;
+
         std::string solve_type;
 
         const moveit::core::JointModelGroup* joint_model_group_;
