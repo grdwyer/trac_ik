@@ -131,7 +131,7 @@
   maximizes the manipulation metric sqrt(det(J*J^T)); 4)  Manip2 returns the
   metric that minimizes the condition number J* J^-1.
 * Added support for these modes in the MoveIt! plugin via the kinematic.yaml
-  parameter solve_type, which can be one of the strings "Speed", "Distance",
+  parameter solve_type_, which can be one of the strings "Speed", "Distance",
   "Manipulation1", "Manipulation2".
 
 1.2.1 (2015-12-07)

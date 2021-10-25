@@ -139,8 +139,8 @@ namespace trac_ik_kinematics_plugin
         RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + ".position_only_ik").c_str());
         lookupParam(node_,"position_only_ik", position_ik_, false);
         RCLCPP_INFO(LOGGER, "Looking in common namespaces for param name: %s", (group_name + ".solve_type").c_str());
-        lookupParam(node_,"solve_type", solve_type, std::string("Speed"));
-        RCLCPP_INFO(LOGGER, "Using solve type %s", solve_type.c_str());
+        lookupParam(node_, "solve_type", solve_type_, std::string("Speed"));
+        RCLCPP_INFO(LOGGER, "Using solve type %s", solve_type_.c_str());
         lookupParam(node_,"epsilon", epsilon_, 1e-5);
         RCLCPP_INFO(LOGGER, "Using epsilon value of %g", epsilon_);
 
@@ -350,17 +350,17 @@ namespace trac_ik_kinematics_plugin
 
         TRAC_IK::SolveType solvetype;
 
-        if (solve_type == "Manipulation1")
+        if (solve_type_ == "Manipulation1")
             solvetype = TRAC_IK::Manip1;
-        else if (solve_type == "Manipulation2")
+        else if (solve_type_ == "Manipulation2")
             solvetype = TRAC_IK::Manip2;
-        else if (solve_type == "Distance")
+        else if (solve_type_ == "Distance")
             solvetype = TRAC_IK::Distance;
         else
         {
-            if (solve_type != "Speed")
+            if (solve_type_ != "Speed")
             {
-                RCLCPP_WARN_STREAM(LOGGER, solve_type << " is not a valid solve_type; setting to default: Speed");
+                RCLCPP_WARN_STREAM(LOGGER, solve_type_ << " is not a valid solve_type; setting to default: Speed");
             }
             solvetype = TRAC_IK::Speed;
         }

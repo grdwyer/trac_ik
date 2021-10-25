@@ -71,7 +71,7 @@ namespace trac_ik_kinematics_plugin
 
         KDL::JntArray joint_min_, joint_max_;
 
-        std::string solve_type;
+        std::string solve_type_;
 
         const moveit::core::JointModelGroup* joint_model_group_;
         moveit::core::RobotStatePtr state_;
