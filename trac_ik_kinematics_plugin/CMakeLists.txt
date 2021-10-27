@@ -26,7 +26,7 @@ include_directories(
   include
 )
 
-pluginlib_export_plugin_description_file(trac_ik_kinematics_plugin trac_ik_plugin_description.xml)
+pluginlib_export_plugin_description_file(moveit_core trac_ik_plugin_description.xml)
 
 set(TRAC_IK_LIBRARY_NAME trac_ik_kinematics_plugin)
 
